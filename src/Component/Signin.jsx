@@ -30,7 +30,7 @@ const Login = () => {
         "weather_user",
         JSON.stringify({ ...nstoredUser, isLoggedIn: true })
       );
-      alert(`Welcome ${nstoredUser[0].name}!`);
+      // alert(`Welcome ${nstoredUser[0].name}!`);
       navigate("/weather");
     } else {
       alert("Invalid credentials.");

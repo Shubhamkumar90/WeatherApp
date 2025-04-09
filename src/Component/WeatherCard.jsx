@@ -12,8 +12,7 @@ const WeatherCard = () => {
   const [isFirstTime, setIsFirstTime] = useState(true);
   const [isListening, setIsListening] = useState(false);
   const [greeting, setGreeting] = useState("");
-  const API_KEY = "11f7805d04b48a9b495775b047ebef00";
-  const UNSPLASH_ACCESS_KEY = "ybApAZVLzUCybQ68NKUub0BjTlWsvYwU0Dm_9YE2lJc";
+  
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("weather_user"));
@@ -29,7 +28,7 @@ const WeatherCard = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_API_KEY}`
       );
       if (!response.ok) {
         throw new Error("City not found");
@@ -53,7 +52,7 @@ const WeatherCard = () => {
     let query = weatherCondition.toLowerCase();
     try {
       const response = await fetch(
-        `https://api.unsplash.com/search/photos?query=${query}&client_id=${UNSPLASH_ACCESS_KEY}`
+        `https://api.unsplash.com/search/photos?query=${query}&client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`
       );
       const data = await response.json();
       if (data.results.length > 0) {
@@ -70,7 +69,7 @@ const WeatherCard = () => {
   const fetchCityImage = async (cityName) => {
     try {
       const response = await fetch(
-        `https://api.unsplash.com/search/photos?query=${cityName}&client_id=${UNSPLASH_ACCESS_KEY}`
+        `https://api.unsplash.com/search/photos?query=${cityName}&client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`
       );
       const data = await response.json();
       if (data.results.length > 0) {

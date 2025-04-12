@@ -36,7 +36,8 @@ const WeatherCard = () => {
       const data = await response.json();
       setWeather(data);
       setError(null);
-      fetchBackgroundImage(data.weather[0].main);
+      // console.log(data.weather)
+      fetchBackgroundImage(data.weather[0].description);
       fetchCityImage(city);
     } catch (err) {
       setError(err.message);
@@ -49,7 +50,8 @@ const WeatherCard = () => {
   };
 
   const fetchBackgroundImage = async (weatherCondition) => {
-    let query = weatherCondition.toLowerCase();
+  let query = weatherCondition.toLowerCase();
+  
     try {
       const response = await fetch(
         `https://api.unsplash.com/search/photos?query=${query}&client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`
@@ -128,28 +130,30 @@ const WeatherCard = () => {
       }}
     >
       {/* Search Bar */}
-      <div className="w-full bg-gray-700 p-4 flex justify-center shadow-md fixed top-0 left-0 right-0 z-10">
-        <div className="relative w-2/3">
-          <input
-            type="text"
-            placeholder="Enter city name"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="w-full p-2 pr-10 border rounded-md"
-          />
+      <div className="w-full flex justify-center m-4 bg-blend-color-dodge">
+        <div className="bg-blend-color-dodge bg-opacity-70 backdrop-blur p-3 w-2/3 rounded-lg flex justify-center shadow-md ">
+          <div className="relative w-2/3">
+            <input
+              type="text"
+              placeholder="Enter city name"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="w-full p-2 pr-10 border rounded-md"
+            />
+            <button
+              onClick={handleVoiceSearch}
+              className={`absolute right-2 cursor-pointer top-1/2 transform -translate-y-1/2 ${isListening ? "animate-ping text-red-600" : "text-gray-600 hover:text-blue-600"}`}
+            >
+              <FaMicrophone size={20} />
+            </button>
+          </div>
           <button
-            onClick={handleVoiceSearch}
-            className={`absolute right-2 top-1/2 transform -translate-y-1/2 ${isListening ? "animate-ping text-red-600" : "text-gray-600 hover:text-blue-600"}`}
+            onClick={fetchWeather}
+            className="bg-white text-gray-700 px-4 py-2 rounded-md font-semibold ml-2 cursor-pointer"
           >
-            <FaMicrophone size={20} />
+            Search
           </button>
         </div>
-        <button
-          onClick={fetchWeather}
-          className="bg-white text-gray-700 px-4 py-2 rounded-md font-semibold ml-2"
-        >
-          Search
-        </button>
       </div>
       {isFirstTime&&greeting && (
         <div className="">
@@ -162,15 +166,17 @@ const WeatherCard = () => {
       {loading && <Spinner />}
 
       {weather && (
-        <div className="w-3/4 p-10 mt-20 mb-10 shadow-lg bg-white bg-opacity-90 rounded-2xl text-center space-y-6 relative">
+        
+        <div className="w-3/4 p-10 mt-10 mb-10 ring-1 ring-gray-100 rounded-2xl text-center space-y-6 relative"
+        style={{
+          backgroundImage: cityImage ? `url(${cityImage})` : "",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}>
           <div
-            className="w-full h-60 flex justify-center items-center rounded-lg relative"
-            style={{
-              backgroundImage: cityImage ? `url(${cityImage})` : "",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
+            className="w-full h-60 flex justify-center  items-center rounded-lg relative"
+
           >
             <div className="flex flex-col">
               <div>
@@ -182,35 +188,35 @@ const WeatherCard = () => {
                 <img
                   src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
                   alt={weather.weather[0].description}
-                  className="w-28 h-28 relative"
+                  className="w-40 h-40 relative"
                 />
-                <p className="text-5xl font-bold relative text-blue-500">
+                <p className="text-5xl font-bold relative text-balance">
                   {weather.main.temp}°C
                 </p>
               </div>
             </div>
           </div>
-          <p className="text-xl capitalize text-gray-700 font-semibold">
+          <div className="flex justify-center "><p className="text-xl capitalize p-2 rounded-2xl bg-blue-400 text-black-900 font-semibold">
             {weather.weather[0].description}
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-lg p-6 bg-gray-300 rounded-lg">
-            <div className="p-4 bg-white rounded-lg shadow flex items-center">
+          </p></div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-lg p-6 bg-auto backdrop-blur rounded-lg">
+            <div className="p-4 bg-blue-200 rounded-lg shadow flex items-center">
               Humidity: {weather.main.humidity}%
             </div>
-            <div className="p-4 bg-white rounded-lg shadow flex items-center">
+            <div className="p-4 bg-blue-200 rounded-lg shadow flex items-center">
               Wind Speed: {weather.wind.speed} m/s
             </div>
-            <div className="p-4 bg-white rounded-lg shadow flex items-center">
+            <div className="p-4 bg-blue-200 rounded-lg shadow flex items-center">
               Pressure: {weather.main.pressure} hPa
             </div>
-            <div className="p-4 bg-white rounded-lg shadow flex items-center">
+            <div className="p-4 bg-blue-200 rounded-lg shadow flex items-center">
               Feels Like: {weather.main.feels_like}°C
             </div>
           </div>
           <div className="flex justify-center">
             <button
               onClick={speakWeather}
-              className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md flex items-center gap-2"
+              className="mt-4 px-6 py-2 bg-blue-500 ring-1 ring-gray-200 text-white rounded-md flex items-center gap-2"
             >
               <FaVolumeUp /> Speak Weather
             </button>

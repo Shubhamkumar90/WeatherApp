@@ -178,8 +178,8 @@ const WeatherCard = () => {
             className="w-full h-60 flex justify-center items-center rounded-lg relative"
 
           >
-            <div className="flex flex-col ">
-              <div className="">
+            <div className="flex flex-col">
+              <div>
                 <h3 className="text-4xl font-bold text-yellow-300 drop-shadow-lg relative bg-black bg-opacity-50 p-2 rounded">
                   {weather.name}, {weather.sys.country}
                 </h3>
@@ -188,7 +188,7 @@ const WeatherCard = () => {
                 <img
                   src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
                   alt={weather.weather[0].description}
-                  className="w-40 h-40 relative"
+                  className="w-38 h-38 relative"
                 />
                 <p className="text-5xl font-bold relative text-balance">
                   {weather.main.temp}°C

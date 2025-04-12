@@ -167,24 +167,24 @@ const WeatherCard = () => {
 
       {weather && (
         
-        <div className="w-3/4 p-10 mt-10 mb-10 ring-1 ring-gray-100 rounded-2xl text-center space-y-6 relative"
+        <div className="w-3/4 p-10 mt-10 mb-10 ring-1  ring-gray-100 rounded-2xl text-center space-y-6 relative"
         style={{
           backgroundImage: cityImage ? `url(${cityImage})` : "",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}>
-          <div
-            className="w-full h-60 flex justify-center  items-center rounded-lg relative"
+          <div 
+            className="w-full h-60 flex justify-center items-center rounded-lg relative"
 
           >
-            <div className="flex flex-col">
-              <div>
+            <div className="flex flex-col ">
+              <div className="">
                 <h3 className="text-4xl font-bold text-yellow-300 drop-shadow-lg relative bg-black bg-opacity-50 p-2 rounded">
                   {weather.name}, {weather.sys.country}
                 </h3>
               </div>
-              <div className="relative flex justify-center items-center">
+              <div className="relative flex justify-center items-center ">
                 <img
                   src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
                   alt={weather.weather[0].description}
